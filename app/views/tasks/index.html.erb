@@ -1,13 +1,18 @@
-<h1>My tasks</h1>
-<%=link_to "Create a task", new_task_path %>
+<h1 class="my-3">My tasks</h1>
 
-<% @tasks.each_with_index do |task, index| %>
-<div>
-  <% if task.completed %>
-    <input type="checkbox" id="task-<%= index %>" name="task-<%= index %>" checked disabled />
-  <% else %>
-    <input type="checkbox" id="task-<%= index %>" name="task-<%= index %>" disabled />
+  <% @tasks.each_with_index do |task, index| %>
+  <div class="my-2">
+    <% if task.completed %>
+      <input type="checkbox" id="task-<%= index %>" name="task-<%= index %>" checked disabled />
+    <% else %>
+      <input type="checkbox" id="task-<%= index %>" name="task-<%= index %>" disabled />
+    <% end %>
+    <label for="task-<%= index %>"><%= link_to task.title, task_path(task), class: "text-decoration-none text-dark" %></label>
+    <%= link_to raw("<i class='fa-solid fa-trash-can'></i>"),
+      delete_task_path(task),
+      data: {turbo_method: :delete, turbo_confirm: "Are you sure?"}
+    %>
+  </div>
   <% end %>
-  <label for="task-<%= index %>"><%= link_to task.title, task_path(task) %></label>
-</div>
-<% end %>
+
+<%=link_to "Add a new task", new_task_path, class: "btn btn-primary my-3" %>
